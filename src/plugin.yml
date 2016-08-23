@@ -1,0 +1,5 @@
+main: com.simpleduino.lobbymenu.LobbyMenuPlugin
+author: Gunlek
+version: 1.0
+name: LobbyMenu
+depends: [ShopAPI, Economy]
