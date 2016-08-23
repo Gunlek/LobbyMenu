@@ -1,8 +1,8 @@
-# ShopAPI
+# LobbyMenu
 ### Développé par Fabien Aubret, [SimpleDuino](http://simple-duino.com), pour [NativGaming](http://nativgaming.com)
 
 ## Description
-GuildAPI est une API permettant de simplifier l'interaction des autres plugins avec les guildes.
+LobbyMenu est un plugin permettant la mise en place d'un menu d'accès à différents serveurs spigot / bungeecord
 
 ### Dépendances:
 - ShopAPI
