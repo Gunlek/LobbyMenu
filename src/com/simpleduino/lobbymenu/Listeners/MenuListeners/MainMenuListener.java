@@ -6,6 +6,7 @@ import com.simpleduino.lobbymenu.LobbyMenuPlugin;
 import com.simpleduino.lobbymenu.ServersListing;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -66,6 +67,7 @@ public class MainMenuListener implements Listener {
                             out.writeUTF(serverChecker.getOnlineServers(serverType).get(0));
 
                             Player player = (Player) e.getWhoClicked();
+                            player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1.0F, 1.0F);
 
                             player.sendPluginMessage(LobbyMenuPlugin.getPlugin(LobbyMenuPlugin.class), "BungeeCord", out.toByteArray());
                         }
