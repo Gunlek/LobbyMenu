@@ -23,11 +23,11 @@ public class ConfirmationMenuListener implements Listener {
     public void onInventoryClick(InventoryClickEvent e)
     {
         Player p = (Player) e.getWhoClicked();
-        if(e.getCurrentItem().getType()!=Material.AIR) {
-            if (!economicAPI.hasAccount(p))
-                economicAPI.createAccount(p);
-            EconomicAccount economicAccount = economicAPI.getAccount(p);
-            if (ChatColor.stripColor(e.getInventory().getTitle()).equalsIgnoreCase("confirmation")) {
+        if (ChatColor.stripColor(e.getInventory().getTitle()).equalsIgnoreCase("confirmation")) {
+            if (e.getCurrentItem().getType() != Material.AIR) {
+                if (!economicAPI.hasAccount(p))
+                    economicAPI.createAccount(p);
+                EconomicAccount economicAccount = economicAPI.getAccount(p);
                 if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("confirmer")) {
                     Inventory inv = e.getInventory();
                     if (inv.getItem(4) != null) {

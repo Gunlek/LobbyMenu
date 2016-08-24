@@ -1,12 +1,11 @@
 package com.simpleduino.lobbymenu;
 
-import com.simpleduino.guildAPI.APIObjects.InitGuildAPI;
 import com.simpleduino.lobbymenu.Listeners.MenuListeners.ConfirmationMenuListener;
 import com.simpleduino.lobbymenu.Listeners.MenuListeners.MainMenuListener;
 import com.simpleduino.lobbymenu.Listeners.MenuListeners.ParticleMenuListener;
 import com.simpleduino.lobbymenu.Listeners.ParticleListener;
 import com.simpleduino.lobbymenu.Listeners.PlayerListener;
-import com.simpleduino.lobbymenu.Listeners.SettingsMenuListener;
+import com.simpleduino.lobbymenu.Listeners.MenuListeners.SettingsMenuListener;
 import com.simpleduino.lobbymenu.Messaging.MessageListener;
 import com.simpleduino.lobbymenu.Runnable.updateScoreboardRunnable;
 import com.simpleduino.lobbymenu.particules.Particles;
