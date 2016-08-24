@@ -1,5 +1,6 @@
 # LobbyMenu
 ### Développé par Fabien Aubret, [SimpleDuino](http://simple-duino.com), pour [NativGaming](http://nativgaming.com)
+### Spigot 1.8.8
 
 ## Description
 LobbyMenu est un plugin permettant la mise en place d'un menu d'accès à différents serveurs spigot / bungeecord
