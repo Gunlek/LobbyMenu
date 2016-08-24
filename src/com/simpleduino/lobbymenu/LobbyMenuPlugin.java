@@ -1,13 +1,11 @@
 package com.simpleduino.lobbymenu;
 
-import com.simpleduino.lobbymenu.Listeners.MenuListeners.ConfirmationMenuListener;
-import com.simpleduino.lobbymenu.Listeners.MenuListeners.MainMenuListener;
-import com.simpleduino.lobbymenu.Listeners.MenuListeners.ParticleMenuListener;
+import com.simpleduino.lobbymenu.Listeners.MenuListeners.*;
 import com.simpleduino.lobbymenu.Listeners.ParticleListener;
 import com.simpleduino.lobbymenu.Listeners.PlayerListener;
-import com.simpleduino.lobbymenu.Listeners.MenuListeners.SettingsMenuListener;
 import com.simpleduino.lobbymenu.Messaging.MessageListener;
 import com.simpleduino.lobbymenu.Runnable.updateScoreboardRunnable;
+import com.simpleduino.lobbymenu.Runnable.updateScoreboardTitle;
 import com.simpleduino.lobbymenu.particules.Particles;
 import com.simpleduino.shopAPI.APIObjects.ParticleType;
 import net.md_5.bungee.api.ChatColor;
@@ -78,7 +76,9 @@ public class LobbyMenuPlugin extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new ParticleMenuListener(), this);
         this.getServer().getPluginManager().registerEvents(new ConfirmationMenuListener(), this);
         this.getServer().getPluginManager().registerEvents(new MainMenuListener(), this);
+        this.getServer().getPluginManager().registerEvents(new CosmeticMenuListener(), this);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new updateScoreboardRunnable(), 20L, 20L*5);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new updateScoreboardTitle(), 1L, 2L);
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener());
