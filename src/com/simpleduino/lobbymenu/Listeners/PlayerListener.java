@@ -111,6 +111,15 @@ public class PlayerListener implements Listener {
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
         obj.setDisplayName(ChatColor.DARK_GREEN.toString()+ChatColor.BOLD+"Endless"+ChatColor.WHITE+"Fight");
         p.setScoreboard(sc);
+
+        if(playerSettings.get(p.getUniqueId().toString() + ".player-visibility").toString().equalsIgnoreCase("false"))
+        {
+            for(Player player : Bukkit.getOnlinePlayers())
+            {
+                if(!player.hasPermission("lobbymenu.bypass-hiding"))
+                    p.hidePlayer(player);
+            }
+        }
     }
 
     @EventHandler
