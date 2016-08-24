@@ -20,17 +20,15 @@ public class updateScoreboardRunnable implements Runnable {
     public void run() {
         for(Player p : Bukkit.getOnlinePlayers())
         {
-            Scoreboard sc = Bukkit.getScoreboardManager().getNewScoreboard();
-            Objective obj = sc.registerNewObjective("endlessfight", "dummy");
-            Score player_number = obj.getScore(ChatColor.BLUE+"Joueurs (Lobby): "+ChatColor.RED + Integer.toString(Bukkit.getOnlinePlayers().size()));
-            player_number.setScore(-1);
-            Score tokens = obj.getScore(ChatColor.GOLD+"Tokens: "+ChatColor.RED+"0");
-            tokens.setScore(-2);
-            Score coins = obj.getScore(ChatColor.YELLOW+"Coins: "+ChatColor.RED+"0");
-            coins.setScore(-3);
-            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-            obj.setDisplayName(ChatColor.DARK_GREEN.toString()+ChatColor.BOLD+"Endless"+ChatColor.WHITE+"Fight");
-            p.setScoreboard(sc);
+            Scoreboard sc;
+            try
+            {
+                sc = p.getScoreboard();
+            }
+            catch(Exception e)
+            {
+                sc = Bukkit.getScoreboardManager().getNewScoreboard();
+            }
         }
     }
 }
