@@ -4,15 +4,18 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.simpleduino.economy.API.EconomicAPI;
 import com.simpleduino.economy.API.EconomicEntities.EconomicAccount;
+import com.simpleduino.lobbymenu.InstantFirework;
 import com.simpleduino.lobbymenu.Inventories.*;
 import com.simpleduino.lobbymenu.LobbyMenuPlugin;
 import com.simpleduino.lobbymenu.SQL.LobbySQL;
 import com.simpleduino.lobbymenu.ServersListing;
 import com.simpleduino.lobbymenu.particules.Particles;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -94,11 +97,12 @@ public class PlayerListener implements Listener {
         comparatorMenu.setItemMeta(comparatorMeta);
         p.getInventory().setItem(2, comparatorMenu);
 
-        ItemStack particleMenu = new ItemStack(Material.REDSTONE, 1);
-        ItemMeta particleMeta = particleMenu.getItemMeta();
-        particleMeta.setDisplayName(ChatColor.YELLOW + "Particules");
-        particleMenu.setItemMeta(particleMeta);
-        p.getInventory().setItem(3, particleMenu);
+        ItemStack cosmeticMenu = new ItemStack(Material.RAW_FISH, 1);
+        cosmeticMenu.setDurability((short)3);
+        ItemMeta cosmeticMeta = cosmeticMenu.getItemMeta();
+        cosmeticMeta.setDisplayName(ChatColor.YELLOW + "Cosmétiques");
+        cosmeticMenu.setItemMeta(cosmeticMeta);
+        p.getInventory().setItem(3, cosmeticMenu);
 
         Scoreboard sc = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective obj = sc.registerNewObjective("endlessfight", "dummy");
@@ -120,6 +124,31 @@ public class PlayerListener implements Listener {
                     p.hidePlayer(player);
             }
         }
+
+        IChatBaseComponent titleComp = IChatBaseComponent.ChatSerializer.a("{\"text\": \""+ ChatColor.AQUA + "Hey "+p.getName()+" !!\"}");
+        IChatBaseComponent subtitleComp = IChatBaseComponent.ChatSerializer.a("{\"text\": \"Bienvenue sur "+ChatColor.DARK_GREEN+"Endless"+ChatColor.WHITE+"fight\"}");
+        PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, titleComp);
+        PacketPlayOutTitle subtitlePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, subtitleComp);
+        PacketPlayOutTitle timePacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null, 5, 80, 5);
+        CraftPlayer cp = (CraftPlayer)p;
+        cp.getHandle().playerConnection.sendPacket(titlePacket);
+        cp.getHandle().playerConnection.sendPacket(subtitlePacket);
+        cp.getHandle().playerConnection.sendPacket(timePacket);
+
+        p.playSound(p.getLocation(), Sound.FIREWORK_LAUNCH, 1.0F, 1.0F);
+        p.playSound(p.getLocation(), Sound.FIREWORK_LAUNCH, 1.0F, 1.0F);
+        p.playSound(p.getLocation(), Sound.FIREWORK_LAUNCH, 1.0F, 1.0F);
+        p.playSound(p.getLocation(), Sound.FIREWORK_BLAST, 1.0F, 1.0F);
+        new InstantFirework(FireworkEffect.builder()
+                .flicker(true)
+                .trail(true)
+                .with(FireworkEffect.Type.BALL)
+                .withColor(Color.GREEN)
+                .withColor(Color.WHITE)
+                .withColor(Color.ORANGE)
+                .withColor(Color.YELLOW)
+                .withFade(Color.RED)
+                .build(), p.getLocation());
     }
 
     @EventHandler
@@ -161,8 +190,8 @@ public class PlayerListener implements Listener {
                             e.setCancelled(true);
                             break;
 
-                        case "particules":
-                            e.getPlayer().openInventory(new ParticleMenu(e.getPlayer()).getInventory());
+                        case "cosmétiques":
+                            e.getPlayer().openInventory(new CosmeticMenu(e.getPlayer()).getInventory());
                             e.setCancelled(true);
                             break;
                     }
