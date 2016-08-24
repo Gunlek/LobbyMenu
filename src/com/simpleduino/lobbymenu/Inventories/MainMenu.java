@@ -24,6 +24,18 @@ public class MainMenu {
 
     public MainMenu()
     {
+        ItemStack addressSign = new ItemStack(Material.SIGN, 1);
+        ItemMeta addressMeta = addressSign.getItemMeta();
+        addressMeta.setDisplayName(ChatColor.AQUA + "Adresse du teamspeak");
+        addressSign.setItemMeta(addressMeta);
+        this.inv.setItem(0, addressSign);
+        placedItems.add(0);
+
+        addressMeta.setDisplayName(ChatColor.AQUA + "Adresse du site web");
+        addressSign.setItemMeta(addressMeta);
+        this.inv.setItem(8, addressSign);
+        placedItems.add(8);
+
         ItemStack creative_item = new ItemStack(Material.DIAMOND_BLOCK, 1);
         ItemMeta creative_meta = creative_item.getItemMeta();
         creative_meta.setDisplayName(ChatColor.RESET.toString() + ChatColor.LIGHT_PURPLE+"Créatif");
