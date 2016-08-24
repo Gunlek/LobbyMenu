@@ -1,4 +1,4 @@
-package com.simpleduino.lobbymenu.Listeners;
+package com.simpleduino.lobbymenu.Listeners.MenuListeners;
 
 import com.simpleduino.lobbymenu.Inventories.SettingsMenu;
 import com.simpleduino.lobbymenu.LobbyMenuPlugin;
@@ -74,9 +74,18 @@ public class SettingsMenuListener implements Listener {
                     case "visibilité":
                         switch (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toLowerCase().replace("voir les autres ", "").split(" ")[1].replace("(", "").replace(")", "")) {
                             case "désactiver":
+                                for(Player player : Bukkit.getOnlinePlayers())
+                                {
+                                    if(!player.hasPermission("lobbymenu.bypass-hiding"))
+                                        p.hidePlayer(player);
+                                }
                                 playerSettings.set(e.getWhoClicked().getUniqueId().toString() + ".player-visibility", "false");
                                 break;
                             case "activer":
+                                for(Player player : Bukkit.getOnlinePlayers())
+                                {
+                                    p.showPlayer(player);
+                                }
                                 playerSettings.set(e.getWhoClicked().getUniqueId().toString() + ".player-visibility", "true");
                                 break;
                         }
