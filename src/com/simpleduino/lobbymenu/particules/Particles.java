@@ -1,6 +1,6 @@
 package com.simpleduino.lobbymenu.particules;
 
-import com.simpleduino.lobbymenu.Listeners.SettingsMenuListener;
+import com.simpleduino.lobbymenu.Listeners.MenuListeners.SettingsMenuListener;
 import com.simpleduino.lobbymenu.LobbyMenuPlugin;
 import com.simpleduino.lobbymenu.SQL.LobbySQL;
 import com.simpleduino.shopAPI.APIObjects.ParticleType;
