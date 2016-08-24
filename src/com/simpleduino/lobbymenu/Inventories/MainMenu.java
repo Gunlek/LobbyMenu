@@ -165,6 +165,9 @@ public class MainMenu {
                 int durability = r.nextInt(High-Low) + Low;
                 ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1);
                 pane.setDurability((short)durability);
+                ItemMeta paneMeta = pane.getItemMeta();
+                paneMeta.setDisplayName(ChatColor.WHITE + "");
+                pane.setItemMeta(paneMeta);
                 this.inv.setItem(i, pane);
             }
         }
