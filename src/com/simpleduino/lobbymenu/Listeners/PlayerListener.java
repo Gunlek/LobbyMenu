@@ -41,7 +41,6 @@ import java.util.ArrayList;
 
 public class PlayerListener implements Listener {
 
-    ServersListing serverChecker = new ServersListing();
     LobbySQL lobbySQL = new LobbySQL();
     private File f = new File("plugins/LobbyMenu/playerSettings.yml");
     private YamlConfiguration playerSettings = YamlConfiguration.loadConfiguration(f);
@@ -158,33 +157,6 @@ public class PlayerListener implements Listener {
                             e.setCancelled(true);
                             break;
                     }
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void onPlayerInteractMainMenu(InventoryClickEvent e) {
-        if (e.getInventory().getTitle() != null && ChatColor.stripColor(e.getInventory().getTitle()).equalsIgnoreCase("menu principal")) {
-            if (e.getCurrentItem() != null) {
-                ItemStack clickedItem = e.getInventory().getItem(e.getSlot());
-                if (!clickedItem.getType().equals(Material.STAINED_GLASS_PANE) && !clickedItem.getType().equals(Material.AIR)) {
-                    String serverType = ChatColor.stripColor(clickedItem.getItemMeta().getDisplayName());
-                    serverType = serverType.replace("é", "e");
-                    serverType = serverType.replace("è", "e");
-                    serverType = serverType.replace(" ", "_");
-                    serverType = serverType.toLowerCase();
-                    e.getWhoClicked().closeInventory();
-                    ByteArrayDataOutput out = ByteStreams.newDataOutput();
-
-                    out.writeUTF("ConnectOther");
-                    out.writeUTF(e.getWhoClicked().getName());
-                    out.writeUTF(serverChecker.getOnlineServers(serverType).get(0));
-
-                    Player player = (Player) e.getWhoClicked();
-
-                    player.sendPluginMessage(LobbyMenuPlugin.getPlugin(LobbyMenuPlugin.class), "BungeeCord", out.toByteArray());
-                    e.setCancelled(true);
                 }
             }
         }
