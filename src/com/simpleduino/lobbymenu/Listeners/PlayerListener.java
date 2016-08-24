@@ -32,6 +32,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Simple-Duino on 07/07/2016.
@@ -50,6 +51,9 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e)
     {
         Player p = e.getPlayer();
+        if(!economicAPI.hasAccount(p))
+            economicAPI.createAccount(p);
+        EconomicAccount economicAccount = economicAPI.getAccount(p);
         if(!lobbySQL.isPlayerParticlesRegistered(e.getPlayer()))
         {
             lobbySQL.registerPlayerParticles(p);
@@ -77,6 +81,11 @@ public class PlayerListener implements Listener {
         SkullMeta skullMeta = (SkullMeta)PlayerHead.getItemMeta();
         skullMeta.setOwner(p.getName());
         skullMeta.setDisplayName(ChatColor.GREEN + "Profil");
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add(ChatColor.AQUA + "Coins: "+economicAccount.getCoins());
+        lore.add(ChatColor.AQUA + "Tokens: "+economicAccount.getTokens());
+        lore.add(ChatColor.AQUA + "Rang: "+"Coming soon...");
+        skullMeta.setLore(lore);
         PlayerHead.setItemMeta(skullMeta);
         p.getInventory().setItem(1, PlayerHead);
 
@@ -91,10 +100,6 @@ public class PlayerListener implements Listener {
         particleMeta.setDisplayName(ChatColor.YELLOW + "Particules");
         particleMenu.setItemMeta(particleMeta);
         p.getInventory().setItem(3, particleMenu);
-
-        if(!economicAPI.hasAccount(p))
-            economicAPI.createAccount(p);
-        EconomicAccount economicAccount = economicAPI.getAccount(p);
 
         Scoreboard sc = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective obj = sc.registerNewObjective("endlessfight", "dummy");
@@ -132,7 +137,14 @@ public class PlayerListener implements Listener {
                             break;
 
                         case "profil":
-                            e.getPlayer().openInventory(new ProfileMenu().getInventory());
+                            e.getPlayer().closeInventory();
+                            Player p = e.getPlayer();
+                            if(!economicAPI.hasAccount(p))
+                                economicAPI.createAccount(p);
+                            EconomicAccount economicAccount = economicAPI.getAccount(p);
+                            p.sendMessage(ChatColor.AQUA + "Coins: "+economicAccount.getCoins());
+                            p.sendMessage(ChatColor.AQUA + "Tokens: "+economicAccount.getTokens());
+                            p.sendMessage(ChatColor.AQUA + "Rang: "+"Coming soon...");
                             e.setCancelled(true);
                             break;
 
