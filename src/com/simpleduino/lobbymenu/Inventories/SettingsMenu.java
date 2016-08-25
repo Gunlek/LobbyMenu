@@ -20,10 +20,10 @@ import java.io.File;
 public class SettingsMenu {
 
     private Inventory inv = Bukkit.createInventory(null, 9, ChatColor.YELLOW + "Paramètres");
-    private File f = new File("plugins/LobbyMenu/playerSettings.yml");
 
     public SettingsMenu(Player p)
     {
+        File f = new File("plugins/LobbyMenu/playerSettings.yml");
         YamlConfiguration playerSettings = YamlConfiguration.loadConfiguration(f);
         ItemStack mapItem = new ItemStack(Material.EMPTY_MAP, 1);
         if(playerSettings.get(p.getUniqueId().toString()+".enable-chat").toString().equalsIgnoreCase("true"))
