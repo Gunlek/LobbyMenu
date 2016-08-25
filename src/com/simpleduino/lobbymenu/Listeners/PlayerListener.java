@@ -53,6 +53,19 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e)
     {
         Player p = e.getPlayer();
+        if(!playerSettings.isSet(p.getUniqueId().toString() + ".enable-particles"))
+            playerSettings.set(p.getUniqueId().toString() + ".enable-particles", "true");
+        if(!playerSettings.isSet(p.getUniqueId().toString() + ".enable-chat"))
+            playerSettings.set(p.getUniqueId().toString() + ".enable-chat", "true");
+        if(!playerSettings.isSet(p.getUniqueId().toString() + ".player-visibility"))
+            playerSettings.set(p.getUniqueId().toString() + ".player-visibility", "true");
+        try {
+            playerSettings.save(f);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        playerSettings = YamlConfiguration.loadConfiguration(f);
+
         if(!economicAPI.hasAccount(p))
             economicAPI.createAccount(p);
         EconomicAccount economicAccount = economicAPI.getAccount(p);
