@@ -21,12 +21,11 @@ import java.io.IOException;
  */
 public class SettingsMenuListener implements Listener {
 
-    private static File f = new File("plugins/LobbyMenu/playerSettings.yml");
-    private YamlConfiguration playerSettings = YamlConfiguration.loadConfiguration(f);
-
     @EventHandler
     public void onPlayerInteractWithInventory(InventoryClickEvent e)
     {
+        File f = new File("plugins/LobbyMenu/playerSettings.yml");
+        YamlConfiguration playerSettings = YamlConfiguration.loadConfiguration(f);
         final Player p = (Player)e.getWhoClicked();
         if(e.getInventory().getTitle()!=null && ChatColor.stripColor(e.getInventory().getName()).equalsIgnoreCase("paramètres")) {
             if (e.getCurrentItem()!=null && !e.getCurrentItem().equals(Material.AIR) && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().hasDisplayName()) {
@@ -111,6 +110,7 @@ public class SettingsMenuListener implements Listener {
 
     public static boolean doPlayerHasParticlesEnabled(Player p)
     {
+        File f = new File("plugins/LobbyMenu/playerSettings.yml");
         YamlConfiguration playerSettings = YamlConfiguration.loadConfiguration(f);
         return playerSettings.get(p.getUniqueId().toString() + ".enable-particles").toString().equalsIgnoreCase("true");
     }
