@@ -37,6 +37,45 @@ public class LobbySQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if(!this.isInit())
+            this.initDb();
+    }
+
+    private boolean isInit()
+    {
+        try {
+            Statement statement = this.con.createStatement();
+            int table = 0;
+            statement.execute("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE `TABLE_NAME` = \"player_particles\"");
+            ResultSet result = statement.getResultSet();
+            if(result.next())
+            {
+                table++;
+            }
+            result.close();
+            if(table >= 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void initDb()
+    {
+        try {
+            Statement statement = this.con.createStatement();
+            statement.execute("CREATE TABLE `main_management`.`player_particles` ( `id` INT NOT NULL AUTO_INCREMENT , `player_uuid` VARCHAR(255) NOT NULL , `player_name` VARCHAR(255) NOT NULL , `particles` VARCHAR(512) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public HashMap<String, ArrayList<String>> getServerList(String serverType)
