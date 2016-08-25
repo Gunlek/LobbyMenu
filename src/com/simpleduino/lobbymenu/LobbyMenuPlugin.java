@@ -4,6 +4,7 @@ import com.simpleduino.lobbymenu.Listeners.MenuListeners.*;
 import com.simpleduino.lobbymenu.Listeners.ParticleListener;
 import com.simpleduino.lobbymenu.Listeners.PlayerListener;
 import com.simpleduino.lobbymenu.Messaging.MessageListener;
+import com.simpleduino.lobbymenu.Runnable.actionBarRunnable;
 import com.simpleduino.lobbymenu.Runnable.updateScoreboardRunnable;
 import com.simpleduino.lobbymenu.Runnable.updateScoreboardTitle;
 import com.simpleduino.lobbymenu.particules.Particles;
@@ -79,6 +80,7 @@ public class LobbyMenuPlugin extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new CosmeticMenuListener(), this);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new updateScoreboardRunnable(), 20L, 20L*5);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new updateScoreboardTitle(), 1L, 2L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new actionBarRunnable(), 1L, 2L);
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener());
