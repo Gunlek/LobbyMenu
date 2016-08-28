@@ -1,5 +1,11 @@
 package com.simpleduino.lobbymenu;
 
+import com.simpleduino.lobbymenu.Commands.npcselectorCommand;
+import com.simpleduino.lobbymenu.Commands.registernpcCommand;
+import com.simpleduino.lobbymenu.Commands.removenpcCommand;
+import com.simpleduino.lobbymenu.Entities.CraftEntities.CustomCraftVillager;
+import com.simpleduino.lobbymenu.Entities.CraftEntities.CustomEntityType;
+import com.simpleduino.lobbymenu.Listeners.EntityListener;
 import com.simpleduino.lobbymenu.Listeners.MenuListeners.*;
 import com.simpleduino.lobbymenu.Listeners.ParticleListener;
 import com.simpleduino.lobbymenu.Listeners.PlayerListener;
@@ -11,8 +17,13 @@ import com.simpleduino.lobbymenu.particules.Particles;
 import com.simpleduino.shopAPI.APIObjects.ParticleType;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -29,6 +40,7 @@ public class LobbyMenuPlugin extends JavaPlugin {
 
     private File cfgFile = new File("plugins/LobbyMenu/config.yml");
     private File f = new File("plugins/LobbyMenu/playerSettings.yml");
+    private File npcList = new File("plugins/LobbyMenu/npcList.yml");
 
     public static HashMap<ParticleType, ArrayList<Player>> particles = new HashMap<>();
 
@@ -68,6 +80,16 @@ public class LobbyMenuPlugin extends JavaPlugin {
             }
         }
 
+        if(!npcList.exists())
+        {
+            npcList.getParentFile().mkdirs();
+            try {
+                npcList.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         new Particles().initParticles();
 
         new ServersListing();
@@ -78,17 +100,41 @@ public class LobbyMenuPlugin extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new ConfirmationMenuListener(), this);
         this.getServer().getPluginManager().registerEvents(new MainMenuListener(), this);
         this.getServer().getPluginManager().registerEvents(new CosmeticMenuListener(), this);
+        this.getServer().getPluginManager().registerEvents(new EntityListener(), this);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new updateScoreboardRunnable(), 20L, 20L*5);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new updateScoreboardTitle(), 1L, 2L);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new actionBarRunnable(), 1L, 2L);
 
+        this.getServer().getPluginCommand("registernpc").setExecutor(new registernpcCommand());
+        this.getServer().getPluginCommand("npcselector").setExecutor(new npcselectorCommand());
+        this.getServer().getPluginCommand("removenpc").setExecutor(new removenpcCommand());
+
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener());
+        CustomEntityType.registerEntities();
+
+        YamlConfiguration npcCfg = YamlConfiguration.loadConfiguration(npcList);
+        for(String key : npcCfg.getKeys(false))
+        {
+            Location l = new Location(Bukkit.getWorld(npcCfg.get(key+".world").toString()), Double.parseDouble(npcCfg.get(key+".x").toString()), Double.parseDouble(npcCfg.get(key+".y").toString()), Double.parseDouble(npcCfg.get(key+".z").toString()), Float.parseFloat(npcCfg.get(key+".yaw").toString()), Float.parseFloat(npcCfg.get(key+".pitch").toString()));
+            Villager.Profession profession = Villager.Profession.valueOf(npcCfg.get(key+".profession").toString().toUpperCase());
+            CustomCraftVillager.spawn(l, key.replace("&", "§"), profession);
+        }
     }
 
     public void onDisable()
     {
-
+        CustomEntityType.unregisterEntities();
+        for(World w : Bukkit.getWorlds())
+        {
+            for(Entity e : w.getEntities())
+            {
+                if(e.getType().equals(EntityType.VILLAGER) || e.getType().equals(EntityType.ARMOR_STAND) && e.getCustomName()!=null && e.isCustomNameVisible())
+                {
+                    e.remove();
+                }
+            }
+        }
     }
 
     public static ArrayList<String> nonacheté(int prix, boolean coins, int grade, Player player) {
