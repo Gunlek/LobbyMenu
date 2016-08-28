@@ -3,3 +3,16 @@ author: Gunlek
 version: 1.0
 name: LobbyMenu
 depends: [ShopAPI, Economy]
+commands:
+  registernpc:
+    description: Register a npc with specific name
+    use: /registernpc <custom_name> <blacksmith|butcher|librarian|farmer|priest>
+    permission: lobbymenu.admin.registernpc
+  npcselector:
+      description: Get a npc selector
+      use: /npcselector
+      permission: lobbymenu.admin.npcselector
+  removenpc:
+        description: Remove selected npc
+        use: /removenpc
+        permission: lobbymenu.admin.removenpc
