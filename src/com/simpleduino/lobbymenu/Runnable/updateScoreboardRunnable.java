@@ -18,16 +18,14 @@ public class updateScoreboardRunnable implements Runnable {
 
     @Override
     public void run() {
-        for(Player p : Bukkit.getOnlinePlayers())
-        {
-            Scoreboard sc;
-            try
-            {
-                sc = p.getScoreboard();
-            }
-            catch(Exception e)
-            {
-                sc = Bukkit.getScoreboardManager().getNewScoreboard();
+        if(Bukkit.getOnlinePlayers().size()>0) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                Scoreboard sc;
+                try {
+                    sc = p.getScoreboard();
+                } catch (Exception e) {
+                    sc = Bukkit.getScoreboardManager().getNewScoreboard();
+                }
             }
         }
     }

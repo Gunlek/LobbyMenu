@@ -144,9 +144,10 @@ public class updateScoreboardTitle implements Runnable {
                 break;
 
         }
-        for(Player p : Bukkit.getOnlinePlayers())
-        {
-            p.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(displayName);
+        if(Bukkit.getOnlinePlayers().size()>0) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                p.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(displayName);
+            }
         }
 
         index++;

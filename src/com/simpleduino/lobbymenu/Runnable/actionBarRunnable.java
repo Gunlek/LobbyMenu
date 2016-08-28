@@ -85,9 +85,11 @@ public class actionBarRunnable implements Runnable{
             IChatBaseComponent actionBarComp = IChatBaseComponent.ChatSerializer.a("{\"text\": \""+displayMsg+"\"}");
             PacketPlayOutChat packetPlayOutChat = new PacketPlayOutChat(actionBarComp, (byte) 2);
 
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                CraftPlayer cp = (CraftPlayer) p;
-                cp.getHandle().playerConnection.sendPacket(packetPlayOutChat);
+            if(Bukkit.getOnlinePlayers().size()>0) {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    CraftPlayer cp = (CraftPlayer) p;
+                    cp.getHandle().playerConnection.sendPacket(packetPlayOutChat);
+                }
             }
         }
     }
