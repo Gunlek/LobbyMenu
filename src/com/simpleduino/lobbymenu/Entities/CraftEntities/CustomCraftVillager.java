@@ -33,7 +33,6 @@ public class CustomCraftVillager extends EntityVillager {
         } catch (Exception exc) {
             exc.printStackTrace();
         }
-        this.goalSelector.a(0, new PathfinderGoalLookAtPlayer(this, EntityInsentient.class, 8.0F));
     }
 
     @Override
@@ -54,9 +53,10 @@ public class CustomCraftVillager extends EntityVillager {
         armorStand.setCustomName(customName);
         armorStand.setCustomNameVisible(true);
         armorStand.setVisible(false);
-        villager.setLocation(l.getX(), l.getY(), l.getZ(), l.getPitch(), l.getYaw());
         villager.setProfession(profession.getId());
+        villager.setPositionRotation(l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch());
         ((CraftWorld)l.getWorld()).getHandle().addEntity(villager);
+        villager.getBukkitEntity().teleport(l);
         return (Villager) villager.getBukkitEntity();
     }
 }
